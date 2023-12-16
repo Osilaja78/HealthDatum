@@ -1,6 +1,14 @@
 # Contributing guide.
 
-This project has its `main` branch protected, so, whatever change you're proposing should be done in a personal branch which will then be reviwed and merged into the `main` branch. Follow these steps to get started.
+This project has its `main` branch protected, so, whatever change you're proposing should be done in a personal branch which will then be reviwed and merged into the `main` branch.
+
+## Table of contents.
+- [Basics](#basics-🤏🏼).
+- [Frontend](#frontend-🦺).
+- [Backend](#backend-🎭).
+
+## Basics 🤏🏼.
+Follow these steps to get started.
 
 - Clone the repository.
 ```bash
@@ -14,7 +22,7 @@ Replace `branch-name` with a suitable name, most preferrably, it should refer to
 - Then continue to whatever part of the project you would like to make changes, frontend or backend.
 
 
-## Frontend.
+## Frontend 🦺.
 
 The frontend is built using Next.js and Tailwind CSS, so basic knowledge of these two frameworks is required before being able to contribute.
 
@@ -37,7 +45,7 @@ npm install
 npm run dev
 ```
 
-## Backend
+## Backend 🎭.
 
 The backend is built using FastAPI, so basic knowledge of the framework is required before being able to contribute.
 

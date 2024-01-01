@@ -1,9 +1,10 @@
 from fastapi import FastAPI
-from api.routers import auth
+from api.routers import auth, admin, onboarding
 from fastapi.middleware.cors import CORSMiddleware
 # from api.models import users
 from api.database import engine
 import uvicorn
+from api.models import models
 
 
 app = FastAPI(title="HealthDatum")
@@ -26,7 +27,7 @@ app.add_middleware(
 
 
 # Initialize database migration
-# models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine)
 
 
 @app.get('/')
@@ -39,11 +40,13 @@ def index():
     """
 
     return {
-        'message': 'Welcome to SketchSync, an electronic health record system that provides easy means of managing clinical data.'
+        'message': 'Welcome to HealthDatum, an electronic health record system that provides easy means of managing clinical data.'
     }
 
 # Include routes from other router files
 # app.include_router(auth.router)
+app.include_router(admin.router)
+app.include_router(onboarding.router)
 
 
 # Run uvicorn server

@@ -9,6 +9,8 @@ __pycache__/
 # Deta space
 .space
 
+HealthDatum.db
+
 # Distribution / packaging
 .Python
 build/

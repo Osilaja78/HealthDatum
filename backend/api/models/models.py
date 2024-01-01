@@ -1,6 +1,16 @@
 from sqlalchemy import Column, String, Integer, ForeignKey, Boolean, DateTime, Float
 from sqlalchemy.orm import relationship
-from database import Base
+from api.database import Base
+
+# Base class for clinic verification process.
+class ClinicVerification(Base):
+    __tablename__ = "ClinicVerification"
+
+    id = Column(String(80), primary_key=True, index=True)
+    legal_name = Column(String(500), nullable=False)
+    cac_reg_number = Column(String(200), nullable=False, unique=True)
+    contact_email = Column(String(50), nullable=False, unique=True)
+    is_verified = Column(Boolean, default=False)
 
 # This model stores clinics info
 class Clinic(Base):
@@ -10,8 +20,9 @@ class Clinic(Base):
     legal_name = Column(String(500))
     short_bio = Column(String(1500))
     full_address = Column(String(1500))
+    lga = Column(String(100))
     state = Column(String(100))
-    city = Column(String(100))
+    cac_reg_number =  Column(String(200))
     designated_admin_first_name = Column(String(200))
     designated_admin_last_name = Column(String(200))
     designated_admin_title = Column(String(100))
@@ -29,7 +40,7 @@ class Subusers(Base):
     __tablename__ = "Subusers"
 
     id = Column(String(80), primary_key=True, index=True)
-    clinic_id = Column(String(80), ForeignKey('Clinics.id'))
+    clinic_id = Column(String(80), ForeignKey('Clinic.id'))
     title = Column(String(100))
     first_name = Column(String(100))
     last_name = Column(String(100))
@@ -44,7 +55,7 @@ class MedicalRecord(Base):
     __tablename__ = "MedicalRecord"
 
     id = Column(String(80), primary_key=True, index=True)
-    clinic_id = Column(String(80), ForeignKey('Clinics.id'))
+    clinic_id = Column(String(80), ForeignKey('Clinic.id'))
     record_type = Column(String(100))
     insurance = Column(String(150))
     created_at = Column(DateTime(timezone=True))
@@ -57,7 +68,7 @@ class Patients(Base):
     __tablename__ = "Patients"
 
     id = Column(String(80), primary_key=True, index=True)
-    clinic_id = Column(String(80), ForeignKey('Clinics.id'))
+    clinic_id = Column(String(80), ForeignKey('Clinic.id'))
     record_id = Column(String(80), ForeignKey('MedicalRecord.id'))
     first_name = Column(String(100))
     last_name = Column(String(100))
@@ -80,7 +91,7 @@ class PatientBiodata(Base):
     __tablename__ = "PatientBiodata"
 
     patient_id = Column(String(80), ForeignKey('Patients.id'), primary_key=True)
-    clinic_id = Column(String(80), ForeignKey('Clinics.id'))
+    clinic_id = Column(String(80), ForeignKey('Clinic.id'))
     sex = Column(String(50))
     dob = Column(DateTime(timezone=True))
     marital_status = Column(String(100))
@@ -100,7 +111,7 @@ class MedicalHistory(Base):
     __tablename__ = "MedicalHistory"
 
     patient_id = Column(String(80), ForeignKey('Patients.id'), primary_key=True)
-    clinic_id = Column(String(80), ForeignKey('Clinics.id'))
+    clinic_id = Column(String(80), ForeignKey('Clinic.id'))
     previous_admission = Column(String)
     previous_operation = Column(String)
     drug_reactions = Column(String)
@@ -111,7 +122,7 @@ class VitalSigns(Base):
     __tablename__ =  "VitalSigns"
 
     patient_id = Column(String(80), ForeignKey('Patients.id'), primary_key=True)
-    clinic_id = Column(String(80), ForeignKey('Clinics.id'))
+    clinic_id = Column(String(80), ForeignKey('Clinic.id'))
     systolic_bp = Column(Float)
     diastolic_bp = Column(Float)
     weight = Column(Float)
@@ -125,7 +136,7 @@ class Consultation(Base):
     __tablename__ = "Consultation"
 
     patient_id = Column(String(80), ForeignKey('Patients.id'), primary_key=True)
-    clinic_id = Column(String(80), ForeignKey('Clinics.id'))
+    clinic_id = Column(String(80), ForeignKey('Clinic.id'))
     complaints =  Column(String)
     diagnosis = Column(String)
     plan = Column(String)
@@ -133,10 +144,10 @@ class Consultation(Base):
 
 
 class Test(Base):
-    __tablename__ = "Consultation"
+    __tablename__ = "Test"
 
     patient_id = Column(String(80), ForeignKey('Patients.id'), primary_key=True)
-    clinic_id = Column(String(80), ForeignKey('Clinics.id'))
+    clinic_id = Column(String(80), ForeignKey('Clinic.id'))
     test_type = Column(String)
     result = Column(String)
 
